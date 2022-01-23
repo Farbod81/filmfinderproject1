@@ -209,6 +209,7 @@ def read_json(filename="Favorites.json"):
         data = json.load(target)
     return data
 
+
 try:
     read_json()
 except:
