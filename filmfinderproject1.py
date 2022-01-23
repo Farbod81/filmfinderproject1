@@ -49,7 +49,6 @@ def find(update: Update, callback: CallbackContext):
 
     else:
         ia = imdb.IMDb()
-        newids = {}
         movies = ia.search_movie(update.message.text)
         q = 0
         for movie in movies:
@@ -76,7 +75,6 @@ def queryHandler(update: Update, callback: CallbackContext):
     query = update.callback_query.data
     update.callback_query.answer()
 
-    global likes, dislikes
 
     if "searcher" in query:
         callback.bot.send_message(chat_id=update.effective_chat.id, text=f"Please enter the movie name:")
@@ -177,21 +175,9 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 
-def write_json(data, filename="Favorites.json"):
-    with open(filename, 'w') as target:
-        json.dump(data, target, indent=4, ensure_ascii=False)
 
 
-def read_json(filename="Favorites.json"):
-    with open(filename, 'r') as target:
-        data = json.load(target)
-    return data
 
-
-try:
-    read_json()
-except:
-    write_json({})
 
 
 
@@ -204,27 +190,32 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
 
-    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
-    updater.bot.setWebhook('https://moviefindeproject1.herokuapp.com/' + "5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
+    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
     updater.idle()
 
 
 
+
+
+
+def write_json(data, filename="Favorites.json"):
+    with open(filename, 'w') as target:
+        json.dump(data, target, indent=4, ensure_ascii=False)
+
+
+def read_json(filename="Favorites.json"):
+    with open(filename, 'r') as target:
+        data = json.load(target)
+    return data
+
 try:
     read_json()
 except:
-    write_json({})
-
-
-if __name__ == "__main__":
-    main()
-
-
-try:
-    read_json()
-except:
-    write_json({})
+    write_json()
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
+if __name__ == "__main__":
+    main()
