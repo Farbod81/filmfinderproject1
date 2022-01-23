@@ -192,7 +192,6 @@ def main():
 
 
 
-
 def write_json(data, filename="Favorites.json"):
     with open(filename, 'w') as target:
         json.dump(data, target, indent=4, ensure_ascii=False)
