@@ -32,7 +32,7 @@ def list(update:Update, callback:CallbackContext):
     if username not in Favorites.keys():
         callback.bot.send_message(chat_id=update.effective_chat.id, text="List is empty!",reply_markup=ReplyKeyboardMarkup(buttons))
 
-    if username in Favorites.keys():
+    elif username in Favorites.keys():
         favorite = ""
         for fav in Favorites[username]:
             favorite += fav + "\n"
@@ -210,9 +210,20 @@ def main():
 
 
 
+try:
+    read_json()
+except:
+    write_json({})
+
+
 if __name__ == "__main__":
     main()
 
+
+try:
+    read_json()
+except:
+    write_json({})
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
