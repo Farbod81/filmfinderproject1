@@ -1,9 +1,9 @@
 import logging
-import requests
-import telegram
-from bs4 import BeautifulSoup
-from telegram import Update,ParseMode,KeyboardButton,ReplyKeyboardMarkup, ReplyKeyboardRemove,InlineKeyboardButton,InlineKeyboardMarkup
-from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters, Updater, InlineQueryHandler,CallbackQueryHandler
+
+
+
+from telegram import Update,KeyboardButton,ReplyKeyboardMarkup,InlineKeyboardButton,InlineKeyboardMarkup
+from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters, Updater,CallbackQueryHandler
 from imdb import IMDb
 import imdb
 import json
@@ -13,7 +13,7 @@ import re
 
 import os
 PORT = int(os.environ.get('PORT', 5000))
-
+TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
 
 def start(update:Update, callback:CallbackContext):
     buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
@@ -23,23 +23,20 @@ def start(update:Update, callback:CallbackContext):
     callback.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttonss), text=f"Choose one below to continue👇")
 
 
+
 def list(update:Update, callback:CallbackContext):
     buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
     Favorites = read_json()
     username = update.effective_user.username
-    print(username)
 
     if username not in Favorites.keys():
         callback.bot.send_message(chat_id=update.effective_chat.id, text="List is empty!",reply_markup=ReplyKeyboardMarkup(buttons))
 
-    else:
+    if username in Favorites.keys():
         favorite = ""
         for fav in Favorites[username]:
             favorite += fav + "\n"
         callback.bot.send_message(chat_id=update.effective_chat.id, text=f"{favorite}",reply_markup=ReplyKeyboardMarkup(buttons))
-
-
-
 
 
 
@@ -61,74 +58,18 @@ def find(update: Update, callback: CallbackContext):
                 newids[movie["title"]] = movie.movieID
                 try:
                     infbutton = [[InlineKeyboardButton("🎬 more information", callback_data=f"inf{movie.movieID}")]]
-                    # update.message.reply_text(f"{movie} {movie['year']}")
                     callback.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(infbutton), text=f"{movie} {movie['year']}")
-                    # print(update.effective_message)
-                    # print(callback.bot_data)
 
                 except KeyError:
-                    # update.message.reply_text(f"{movie}")
                     infbutton = [[InlineKeyboardButton("🎬 more information", callback_data=f"inf{movie.movieID}")]]
                     callback.bot.send_message(chat_id=update.effective_chat.id,
                                               reply_markup=InlineKeyboardMarkup(infbutton),
                                               text=f"{movie}")
+
                 except:
                     update.message.reply_text(f"try again😔")
 
 
-            # callback.bot_data.update({"idsdict": newids})
-            # update.message.reply_text("جهت دریافت اطلاعات در باره فیلم نام فیلم مورد نظر را وارد نمایید. و در انتهای نام فیلم .inf را اضافه کنید.")
-
-        # else:
-        #
-        #     chosenmovie = update.message.text
-        #     chosenmovie = chosenmovie.replace(".inf", "")
-        #     print(callback.bot_data)
-        #     try:
-        #         movieid = callback.bot_data["idsdict"][chosenmovie]
-        #         print(movieid)
-        #     except KeyError:
-        #         update.message.reply_text("نام وارد شده یافت نشد.")
-        #         return
-        #     ia = IMDb()
-        #     movie = ia.get_movie(movieid)
-        #
-        #     try:
-        #         country = ""
-        #         for count in movie['countries']:
-        #             country = count['name'] + " "
-        #     except:
-        #         country = "-"
-        #     try:
-        #         genre = ""
-        #         for gen in movie['countries']:
-        #             country = gen['name'] + " "
-        #     except:
-        #         genre = "-"
-        #
-        #     try:
-        #         language = ""
-        #         for lan in movie['countries']:
-        #             country = lan['name'] + " "
-        #     except:
-        #         language = "-"
-        #
-        #     try:
-        #         dirct = ""
-        #         for director in movie['directors']:
-        #             dirct = director['name'] + " "
-        #
-        #     except:
-        #         dirct ="-"
-        #
-        #     buttons = [[InlineKeyboardButton("🤩 Add to favorite list", callback_data="favorite")],
-        #                [InlineKeyboardButton("👍", callback_data="like")],
-        #                [InlineKeyboardButton("👎", callback_data="dislike")]]
-        #     callback.bot.send_message(chat_id=update.effective_chat.id,reply_markup=InlineKeyboardMarkup(buttons),text=f"genres: {genre}\ncountry: {country}\nrelease year: {movie['year']}\nlanguage: {language}\ndirector: {dirct}")
-
-            # buttons = [[InlineKeyboardButton("Add to favorite list", callback_data="like")],
-            #            [InlineKeyboardButton("Add to download list", callback_data="dislike")]]
-            # callback.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons))
 
 
 def queryHandler(update: Update, callback: CallbackContext):
@@ -219,7 +160,6 @@ def queryHandler(update: Update, callback: CallbackContext):
             year = "-"
 
         buttons = [[InlineKeyboardButton("🤩 Add to Favorites", callback_data="add")]]
-
         callback.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
                 text=f"🎞Title: {movie['title']}\n🍿Genres: {genre}\n🏳Country: {country}\n📅Release Year: {year}\n👅Language: {language}\n🎬Director: {dirct}\n🎥Actors: {actor}\n✍️Writer: {writer}")
 
@@ -227,15 +167,13 @@ def queryHandler(update: Update, callback: CallbackContext):
         Favorites = read_json()
         username = update.effective_user.username
         movieinf = update.callback_query["message"]["text"]
-        print(movieinf)
 
         if username not in Favorites.keys():
             Favorites[username] = []
-
-        Favorites[username].append(movieinf)
-        Favorites[username].append("\n")
-        write_json(Favorites)
-
+        if movieinf not in Favorites[username]:
+            Favorites[username].append(movieinf)
+            Favorites[username].append("\n")
+            write_json(Favorites)
 
 
 
@@ -257,23 +195,18 @@ except:
 
 
 
-
-
 def main():
-    updater = Updater("5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
+    updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs", use_context=True)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("Start", start))
     dispatcher.add_handler(CommandHandler("Favorites", list))
     dispatcher.add_handler(MessageHandler(Filters.text, find))
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
-    updater.start_webhook(listen="0.0.0.0",port=int(PORT), url_path="5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
+
+    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
     updater.bot.setWebhook('https://moviefindeproject1.herokuapp.com/' + "5212438580:AAHc4UgpGC7ql2nq2cE1sxuoJE7QXUgwEsQ")
-
-
     updater.idle()
-
-
 
 
 
