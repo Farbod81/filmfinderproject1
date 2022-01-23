@@ -174,10 +174,6 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 
-
-
-
-
 def main():
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs", use_context=True)
     dispatcher = updater.dispatcher
@@ -187,8 +183,9 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
 
-    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
-    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    # updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    # updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    updater.start_polling()
     updater.idle()
 
 
@@ -210,7 +207,7 @@ def read_json(filename="Favorites.json"):
 try:
     read_json()
 except:
-    write_json()
+    write_json({})
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
