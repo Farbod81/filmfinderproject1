@@ -183,8 +183,8 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
 
-    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
-    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path=TOKEN)
+    updater.bot.setWebhook("https://cryptic-wave-29229.herokuapp.com/" + TOKEN)
 
     updater.idle()
 
