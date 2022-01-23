@@ -1,17 +1,15 @@
 import logging
-
-
-
 from telegram import Update,KeyboardButton,ReplyKeyboardMarkup,InlineKeyboardButton,InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters, Updater,CallbackQueryHandler
 from imdb import IMDb
 import imdb
 import json
+import os
+
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
 logger = logging.getLogger(__name__)
-import re
 
-import os
+
 PORT = int(os.environ.get('PORT', 5000))
 TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
 
@@ -54,7 +52,6 @@ def find(update: Update, callback: CallbackContext):
         for movie in movies:
             if q < 5:
                 q += 1
-                newids[movie["title"]] = movie.movieID
                 try:
                     infbutton = [[InlineKeyboardButton("🎬 more information", callback_data=f"inf{movie.movieID}")]]
                     callback.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(infbutton), text=f"{movie} {movie['year']}")
@@ -191,7 +188,7 @@ def main():
 
 
     updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
-    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
     updater.idle()
 
 
