@@ -51,7 +51,7 @@ def list(update:Update, callback:CallbackContext):
 
 
 def find(update: Update, callback: CallbackContext):
-    buttons = [[KeyboardButton("/Start")], [KeyboardButton("Search🔎")], [KeyboardButton("/Favorites")]]
+    buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
     text = update.message.text
     if text == "🔎Search":
         callback.bot.send_message(chat_id=update.effective_chat.id, text="Please enter the movie name:", reply_markup=ReplyKeyboardMarkup(buttons))
