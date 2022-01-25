@@ -23,11 +23,6 @@ def read_json(filename="Favorites.json"):
     return data
 
 
-try:
-    read_json()
-except:
-    write_json({})
-
 
 def start(update:Update, callback:CallbackContext):
     buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
@@ -185,18 +180,6 @@ def queryHandler(update: Update, callback: CallbackContext):
             Favorites[username].append(movieinf)
             Favorites[username].append("\n")
             write_json(Favorites)
-
-
-def write_json(data, filename="Favorites.json"):
-    with open(filename, 'w') as target:
-        json.dump(data, target, indent=4, ensure_ascii=False)
-
-
-def read_json(filename="Favorites.json"):
-    with open(filename, 'r') as target:
-        data = json.load(target)
-    return data
-
 
 
 
