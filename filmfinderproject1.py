@@ -214,4 +214,5 @@ def main():
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
 if __name__ == "__main__":
+    read_json()
     main()
