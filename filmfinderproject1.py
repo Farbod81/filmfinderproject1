@@ -170,6 +170,16 @@ def queryHandler(update: Update, callback: CallbackContext):
             write_json(Favorites)
 
 
+def write_json(data, filename="Favorites.json"):
+    with open(filename, 'w') as target:
+        json.dump(data, target, indent=4, ensure_ascii=False)
+
+
+def read_json(filename="Favorites.json"):
+    with open(filename, 'r') as target:
+        data = json.load(target)
+    return data
+
 
 
 
@@ -177,6 +187,13 @@ def main():
     PORT = int(os.environ.get('PORT', '5000'))
     TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+
+    try:
+        read_json()
+    except:
+        write_json({})
+
+
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("Start", start))
     dispatcher.add_handler(CommandHandler("Favorites", list))
@@ -194,24 +211,6 @@ def main():
     updater.idle()
 
 
-
-
-
-def write_json(data, filename="Favorites.json"):
-    with open(filename, 'w') as target:
-        json.dump(data, target, indent=4, ensure_ascii=False)
-
-
-def read_json(filename="Favorites.json"):
-    with open(filename, 'r') as target:
-        data = json.load(target)
-    return data
-
-
-try:
-    read_json()
-except:
-    write_json({})
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
