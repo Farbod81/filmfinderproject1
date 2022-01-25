@@ -10,8 +10,7 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 
-PORT = int(os.environ.get('PORT', 5000))
-TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
+
 
 def start(update:Update, callback:CallbackContext):
     buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
@@ -175,7 +174,9 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 def main():
-    updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs", use_context=True)
+    PORT = int(os.environ.get('PORT', '5000'))
+    TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
+    updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("Start", start))
     dispatcher.add_handler(CommandHandler("Favorites", list))
@@ -183,8 +184,12 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
 
-    updater.start_webhook(listen="0.0.0.0",port=PORT, url_path=TOKEN)
-    updater.bot.setWebhook("https://cryptic-wave-29229.herokuapp.com/" + TOKEN)
+    # updater.start_webhook(listen="0.0.0.0",port=PORT, url_path=TOKEN)
+    # updater.bot.setWebhook("https://cryptic-wave-29229.herokuapp.com/" + TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=TOKEN,
+                          webhook_url="https://cryptic-wave-29229.herokuapp.com/" + TOKEN)
 
     updater.idle()
 
