@@ -51,9 +51,9 @@ def list(update:Update, callback:CallbackContext):
 
 
 def find(update: Update, callback: CallbackContext):
-    buttons = [[KeyboardButton("/Start🎬")], [KeyboardButton("Search🔎")], [KeyboardButton("/Favorites📜")]]
+    buttons = [[KeyboardButton("/Start")], [KeyboardButton("Search🔎")], [KeyboardButton("/Favorites")]]
     text = update.message.text
-    if text == "Search🔎":
+    if text == "🔎Search":
         callback.bot.send_message(chat_id=update.effective_chat.id, text="Please enter the movie name:", reply_markup=ReplyKeyboardMarkup(buttons))
 
     else:
@@ -186,13 +186,14 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 def main():
+    read_json()
     PORT = int(os.environ.get('PORT', '5000'))
     TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
 
     dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler("Start🎬", start))
-    dispatcher.add_handler(CommandHandler("Favorites📜", list))
+    dispatcher.add_handler(CommandHandler("Start", start))
+    dispatcher.add_handler(CommandHandler("Favorites", list))
     dispatcher.add_handler(MessageHandler(Filters.text, find))
     dispatcher.add_handler(CallbackQueryHandler(queryHandler))
 
@@ -206,7 +207,7 @@ def main():
 
     updater.idle()
 
-read_json()
+
 
 
 # check these errors
