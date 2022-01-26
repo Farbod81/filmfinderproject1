@@ -208,6 +208,7 @@ def main():
 
 
 
+
 read_json("Favorites.json")
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
