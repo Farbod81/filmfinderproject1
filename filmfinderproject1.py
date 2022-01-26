@@ -186,7 +186,6 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 def main():
-    read_json()
     PORT = int(os.environ.get('PORT', '5000'))
     TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
@@ -209,10 +208,9 @@ def main():
 
 
 
-
+read_json()
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
 if __name__ == "__main__":
-    read_json()
     main()
