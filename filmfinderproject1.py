@@ -7,10 +7,10 @@ import json
 import os
 
 logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO)
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', "8443"))
 TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
 
 def start(update:Update, callback:CallbackContext):
@@ -210,7 +210,7 @@ def read_json(filename="Favorites.json"):
 try:
     read_json()
 except:
-    write_json()
+    write_json({})
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
