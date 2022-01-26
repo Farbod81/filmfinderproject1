@@ -188,7 +188,7 @@ def main():
 
 
     updater.start_webhook(listen="0.0.0.0",port=PORT, url_path="5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
-    updater.bot.setWebhook("https://moviefindeproject1.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
+    updater.bot.setWebhook("https://cryptic-wave-29229.herokuapp.com/" + "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
     updater.idle()
 
 
@@ -206,12 +206,14 @@ def read_json(filename="Favorites.json"):
         data = json.load(target)
     return data
 
-
+try:
+    read_json()
+except:
+    write_json({})
 
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
 if __name__ == "__main__":
-    read_json()
     main()
