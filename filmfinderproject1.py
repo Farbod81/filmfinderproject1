@@ -208,9 +208,10 @@ def main():
 
 
 
-read_json()
+read_json("Favorites.json")
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
 if __name__ == "__main__":
+    read_json("Favorites.json")
     main()
