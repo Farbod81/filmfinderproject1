@@ -10,8 +10,6 @@ logging.basicConfig(format="%(asctime)s - %(name)s - %(levelname)s - %(message)s
 # logger = logging.getLogger(__name__)
 
 
-PORT = int(os.environ.get('PORT', "8443"))
-TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
 
 def start(update:Update, callback:CallbackContext):
     buttons = [[KeyboardButton("/Start")], [KeyboardButton("🔎Search")], [KeyboardButton("/Favorites")]]
@@ -179,6 +177,8 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 def main():
+    PORT = int(os.environ.get('PORT', "8443"))
+    TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs", use_context=True)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("Start", start))
@@ -206,14 +206,11 @@ def read_json(filename="Favorites.json"):
         data = json.load(target)
     return data
 
-try:
-    read_json()
-except:
-    write_json({})
 
 
 # check these errors
 # imdb._exceptions.IMDbDataAccessError check this error
 # ValueError: Command is not a valid bot command
 if __name__ == "__main__":
+    read_json()
     main()
