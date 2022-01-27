@@ -186,7 +186,7 @@ def queryHandler(update: Update, callback: CallbackContext):
 
 
 def main():
-    PORT = int(os.environ.get('PORT', '80'))
+    PORT = int(os.environ.get('PORT', '88'))
     TOKEN = "5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs"
     updater = Updater("5114393405:AAGzxm7sIaI_K7rceWh5XI9WuRmNLMXZXZs")
 
